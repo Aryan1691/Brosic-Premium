@@ -17,8 +17,7 @@
   font-family: "Poppins";
 }
 
-
-.backgroundVideo{
+.backgroundVideo {
   position: absolute;
   right: 0;
   top: 0;
@@ -50,9 +49,117 @@ body {
   overflow-x: hidden;
 } */
 
-#songAvatar{
+#songAvatar {
   width: 200px;
   height: 200px;
   border-radius: 50%;
+  margin: 18px 0;
   object-fit: cover;
+  position: relative;
+  cursor: pointer;
+  animation: animateAvatar 0.6s linear infinite;
 }
+@keyframes animateAvatar {
+  0%,
+  100% {
+    transform: scale(1);
+    /* transform: rotate(40); */
+  }
+
+  50% {
+    transform: scale(1.03);
+  }
+}
+.blackScreen {
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  position: absolute;
+  background-color: rgba(17, 17, 17, 0.2);
+}
+
+.music-container {
+  width: 350px;
+  padding: 35px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 30px;
+  box-shadow: 0 0 20px rgba(26, 26, 26, 0.1), 0 0 40px rgba(26, 26, 26, 0.1),
+    0 0 80px rgba(26, 26, 26, 0.1);
+  /* filter: blur(10); */
+  backdrop-filter: blur(10px);
+  z-index: 1;
+  font-weight: 600;
+}
+
+.music-Head-Name {
+  margin: 0 auto;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.music-Artist-Name {
+  color: var(--mainDimColor);
+  margin: 4px 0;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+.musicTimerDiv {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  font-weight: 600;
+}
+
+.musicProgressBar {
+  width: 100%;
+  margin-bottom: 16px;
+  height: 5px;
+  color: blanchedalmond;
+  border-radius: 10px;
+  outline: none;
+  filter: hue-rotate(20deg);
+}
+.playBtn {
+  font-size: 32px;
+  margin: auto 10px;
+  color: var(--mainColor);
+  cursor: pointer;
+  font-weight: 400;
+}
+.musicController {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  cursor: pointer;
+  font-size: 30px;
+  color: var(--mainColor);
+}
+
+.changeBackBtn {
+  width: 200px;
+  height: 30px;
+  background-color: #eee;
+  position: absolute;
+  border-radius: 12px 12px 0 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  transition: 0.3s;
+  color: #eee;
+  cursor: pointer;
+  padding: 10px 0 0 0;
+  font-weight: 800;
+  text-align: center;
+}
+
+.changeBackBtn:hover {
+  height: 50px;
+  color: #222;
+}
+
