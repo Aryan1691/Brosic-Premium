@@ -1,26 +1,40 @@
 import { useRef, useState } from "react";
 import video1 from "./assets/videos/video1.mp4";
+import video2 from "./assets/videos/video2.mp4";
+import video3 from "./assets/videos/video3.mp4";
+import video4 from "./assets/videos/video4.mp4";
+import video5 from "./assets/videos/video5.mp4";
+
 import img1 from "./assets/Images/image1.jpg";
 import img2 from "./assets/Images/image2.jpg";
 import img3 from "./assets/Images/image3.jpg";
+import img4 from "./assets/Images/image7.jpg";
 
 import song from "./assets/songs/Chasing - NEFFEX.mp3";
+import song1 from "./assets/songs/Catch Me If I Fall - NEFFEX.mp3";
+import song2 from "./assets/songs/Inspired (Clean) - NEFFEX.mp3";
+import song3 from "./assets/songs/apna bana le.webm";
 
 const App = () => {
   const [currentMusicDetails, setcurrentMusicDetails] = useState({
     songName: "Chasing",
     songArtist: "NEFFEX",
-    songSrc: "./assets/songs/Chasing - NEFFEX.mp3",
-    songAvatar: {img1},
+    songSrc: song,
+    songAvatar: img1,
   });
 
-  const [audioProgress, setAudioProgress] = useState(60);
+  const [audioProgress, setAudioProgress] = useState(0);
   const [isAudioPlaying, setisAudioPlaying] = useState(false);
   const [musicIndex, setMusicIndex] = useState(0);
+  const [musicLength, setMusicLength] = useState(`04 : 30`);
+  const [musicCurrentTime, setMusicCurrentTime] = useState(`00 : 00`);
+  const [videoIndex, setVideoIndex] = useState(0);
 
   const currentAudio = useRef();
   const handleMusicProgressbar = (e) => {
     setAudioProgress(e.target.value);
+    currentAudio.current.currentTime =
+      (e.target.value * currentAudio.current.duration) / 100;
   };
 
   //play audio function
@@ -40,28 +54,42 @@ const App = () => {
     {
       songName: "Chasing",
       songArtist: "NEFFEX",
-      songSrc: "./assets/songs/Chasing - NEFFEX.mp3",
-      songAvatar: { img1 },
+      songSrc: song,
+      songAvatar: img1,
     },
     {
       songName: "Catch me if i fall",
       songArtist: "NEFFEX",
-      songSrc: "./assets/songs/Catch Me If I Fall - NEFFEX.mp3",
-      songAvatar: { img2 },
+      songSrc: song1,
+      songAvatar: img2,
     },
-    // {
-    //   songName: "Apna Bana Le from Bhediya",
-    //   songArtist: "Arijit Singh",
-    //   songSrc: "./assets/songs/apna bana le.webm",
-    //   songAvatar: "./assets/Images/image7.jpg",
-    // },
+    {
+      songName: "Apna Bana Le from Bhediya",
+      songArtist: "Arijit Singh",
+      songSrc: song3,
+      songAvatar: img4,
+    },
     {
       songName: "Inspired (clean)",
       songArtist: "NEFFEX",
-      songSrc: "./assets/songs/Inspired (Clean) - NEFFEX.mp3",
-      songAvatar: { img3 },
+      songSrc: song2,
+      songAvatar: img3,
     },
   ];
+
+  const vidArray = [video1, video2, video3, video4, video5];
+
+  const handlePreviousSong = () => {
+    if (musicIndex === 0) {
+      let setNumber = MusicApi.length - 1;
+      setMusicIndex(setNumber);
+      updateCurrentMusicDetails(setNumber);
+    } else {
+      let setNumber = musicIndex - 1;
+      setMusicIndex(setNumber);
+      updateCurrentMusicDetails(setNumber);
+    }
+  };
 
   const handleNextSong = () => {
     if (musicIndex >= MusicApi.length - 1) {
@@ -100,11 +128,46 @@ const App = () => {
   //   }
   //   console.log(avatarClassIndex)
   // };
+
+  const handleAudioUpdate = () => {
+    let minutes = Math.floor(currentAudio.current.duration / 60);
+    let seconds = Math.floor(currentAudio.current.duration % 60);
+    let musicTotalLength = `${minutes < 10 ? `0${minutes}` : minutes} :${
+      seconds < 10 ? `0${seconds}` : seconds
+    }`;
+    setMusicLength(musicTotalLength);
+
+    //input music current time
+    let currentMin = Math.floor(currentAudio.current.currentTime / 60);
+    let currentSec = Math.floor(currentAudio.current.currentTime % 60);
+    let musicCurrentT = `${currentMin < 10 ? `0${currentMin}` : currentMin} :${
+      currentSec < 10 ? `0${currentSec}` : currentSec
+    }`;
+    setMusicCurrentTime(musicCurrentT);
+
+    const progress = parseInt(
+      (currentAudio.current.currentTime / currentAudio.current.duration) * 100
+    );
+    setAudioProgress(isNaN(progress) ? 0 : progress);
+  };
+
+  const handleChangeButton = () => {
+    if (videoIndex >= vidArray.length - 1) {
+      setVideoIndex(0);
+    } else {
+      setVideoIndex(videoIndex + 1);
+    }
+  };
   return (
     <div className="container">
-      <audio src={song} ref={currentAudio}></audio>
+      <audio
+        src={song}
+        ref={currentAudio}
+        onEnded={handleNextSong}
+        onTimeUpdate={handleAudioUpdate}
+      ></audio>
       <video
-        src={video1}
+        src={vidArray[videoIndex]}
         autoPlay
         muted
         loop
@@ -116,15 +179,15 @@ const App = () => {
         <p className="music-Head-Name">{currentMusicDetails.songName}</p>
         <p className="music-Artist-Name">{currentMusicDetails.songArtist}</p>
         <img
-          src={img1}
+          src={currentMusicDetails.songAvatar}
           alt="Song Avatar"
           // onClick={handleAvatar}
           // className={avatarClass[avatarClassIndex]}
           id="songAvatar"
         />
         <div className="musicTimerDiv">
-          <p className="musicCurrentTime">00:00</p>
-          <p className="musicTotalLength">03:49</p>
+          <p className="musicCurrentTime">{musicCurrentTime}</p>
+          <p className="musicTotalLength">{musicLength}</p>
         </div>
         <input
           type="range"
@@ -134,7 +197,7 @@ const App = () => {
           onChange={handleMusicProgressbar}
         />
         <div className="musicController">
-          <i className="fa-solid fa-backward "></i>
+          <i className="fa-solid fa-backward " onClick={handlePreviousSong}></i>
           <i
             className={`fa-solid ${
               isAudioPlaying ? "fa-pause-circle" : "fa-circle-play"
@@ -145,7 +208,9 @@ const App = () => {
           <i className="fa-solid fa-forward " onClick={handleNextSong}></i>
         </div>
       </div>
-      <div className="changeBackBtn">change backrgound</div>
+      <div className="changeBackBtn" onClick={handleChangeButton}>
+        change backrgound
+      </div>
     </div>
   );
 };
