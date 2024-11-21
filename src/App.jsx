@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
-import video1 from "./assets/videos/video1.mp4";
+import video1 from "./assets/videos/video3.mp4";
 import video2 from "./assets/videos/video2.mp4";
-import video3 from "./assets/videos/video3.mp4";
+import video3 from "./assets/videos/video1.mp4";
 import video4 from "./assets/videos/video4.mp4";
 import video5 from "./assets/videos/video5.mp4";
 
@@ -9,18 +9,24 @@ import img1 from "./assets/Images/image1.jpg";
 import img2 from "./assets/Images/image2.jpg";
 import img3 from "./assets/Images/image3.jpg";
 import img4 from "./assets/Images/image7.jpg";
+import img5 from "./assets/Images/image6.jfif";
+import img6 from "./assets/Images/image8.jpg";
+import img7 from "./assets/Images/image9.jpg";
 
 import song from "./assets/songs/Chasing - NEFFEX.mp3";
 import song1 from "./assets/songs/Catch Me If I Fall - NEFFEX.mp3";
 import song2 from "./assets/songs/Inspired (Clean) - NEFFEX.mp3";
 import song3 from "./assets/songs/apna bana le.webm";
+import song4 from "./assets/songs/Satranga - Animal.mp3";
+import song5 from "./assets/songs/Kashmir - Animal.mp3";
+import song6 from "./assets/songs/ishq.mp3";
 
 const App = () => {
   const [currentMusicDetails, setcurrentMusicDetails] = useState({
-    songName: "Chasing",
-    songArtist: "NEFFEX",
-    songSrc: song,
-    songAvatar: img1,
+    songName: "Satranga (Animal)",
+    songArtist: "Arijit Singh",
+    songSrc: song4,
+    songAvatar: img5,
   });
 
   const [audioProgress, setAudioProgress] = useState(0);
@@ -74,6 +80,24 @@ const App = () => {
       songArtist: "NEFFEX",
       songSrc: song2,
       songAvatar: img3,
+    },
+    {
+      songName: "Satranga (Animal)",
+      songArtist: "Arijit Singh",
+      songSrc: song4,
+      songAvatar: img5,
+    },
+    {
+      songName: "Kashmir (Animal)",
+      songArtist: "Arijit Singh",
+      songSrc: song5,
+      songAvatar: img6,
+    },
+    {
+      songName: "Ishq",
+      songArtist: "Faheem Abdullah",
+      songSrc: song6,
+      songAvatar: img7,
     },
   ];
 
@@ -161,7 +185,7 @@ const App = () => {
   return (
     <div className="container">
       <audio
-        src={song}
+        src={song4}
         ref={currentAudio}
         onEnded={handleNextSong}
         onTimeUpdate={handleAudioUpdate}
